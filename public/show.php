@@ -20,7 +20,7 @@ if (!$post) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>List of Posts</title>
+    <title><?= $post['title'] ?></title>
 </head>
 <body>
 <h1><?= $post['title'] ?></h1>
