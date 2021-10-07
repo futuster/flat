@@ -1,0 +1,22 @@
+{
+  "name": "we/super-awesome-blog-engine",
+  "description": "",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "futuster",
+      "email": "futuster@gmail.com"
+    }
+  ],
+  "require": {
+    "symfony/http-foundation": "^v5.3.0"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "files": ["src/model.php","src/controllers.php"]
+  }
+}
