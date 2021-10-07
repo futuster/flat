@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block body %}
+    <a href="{{ path('post_index') }}">Обратно к списку</a>
+
+    <h1 class="fw-light">Редактирование поста</h1>
+
+
+    {{ include('post/_form.html.twig', {'button_label': 'Обновить'}) }}
+
+
+    {{ include('post/_delete_form.html.twig') }}
+{% endblock %}

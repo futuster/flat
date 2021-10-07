@@ -1,0 +1,9 @@
+<style>
+    .textarea-awesome-class {
+        height: 400px;
+    }
+</style>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-outline-primary">{{ button_label|default('Сохранить') }}</button>
+{{ form_end(form) }}

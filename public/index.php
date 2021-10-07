@@ -1,25 +1,9 @@
 <?php
 
-$db = new PDO('sqlite:../var/db.sqlite');
+use App\Kernel;
 
-$statement = $db->query('SELECT * FROM post');
-$results = $statement->fetchAll(PDO::FETCH_ASSOC);
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Посты</title>
-</head>
-<body>
-<?php
-foreach ($results as $row) {
-    ?>
-    <h2><a href="/show.php?id=<?= $row['id'] ?>"><?= $row['title'] ?></a></h2>
-    <div><?= $row['author'] ?></div>
-    <article><?= $row['body'] ?></article>
-    <?php
-}
-?>
-</body>
-</html>
+return function (array $context) {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};

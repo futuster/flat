@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Вах-вах{% endblock %}
+
+{% block body %}
+
+
+    <h1 class="fw-light">Вах-вах</h1>
+
+    {% for post in posts %}
+        <article>
+            <h4>{{ post.title }}</h4>
+            <div>{{ post.createdAt|date }}</div>
+            <div>{{ post.owner.userIdentifier }}</div>
+            <div>{{ post.body }}</div>
+        </article>
+    {% endfor %}
+
+{% endblock %}

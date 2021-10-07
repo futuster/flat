@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Новый пост{% endblock %}
+
+{% block body %}
+    <a href="{{ path('post_index') }}">Обратно к списку</a>
+
+    <h1 class="fw-light">Форма создания шедевра</h1>
+
+    {{ include('post/_form.html.twig') }}
+
+{% endblock %}
