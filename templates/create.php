@@ -1,38 +1,5 @@
 <?php
 
-$db = new PDO('sqlite:../var/db.sqlite');
-
-
-$author = trim($_POST['author'] ?? null);
-$title = trim($_POST['title'] ?? null);
-$body = trim($_POST['body'] ?? null);
-
-$error = [];
-
-// валидация
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (empty($author)) {
-        $error['author'] = 'Укажите автора';
-    }
-    if (empty($title)) {
-        $error['title'] = 'Придумайте заголовок';
-    }
-    if (empty($body)) {
-        $error['body'] = 'Напишите пост';
-    }
-}
-
-// сохранение
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($error) === 0) {
-    $qry = $db->prepare(
-        'INSERT INTO post (title, author, body) VALUES (?, ?, ?)'
-    );
-
-    $qry->execute([$title, $author, $body]);
-
-    header('Location: /');
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html>

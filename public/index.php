@@ -1,25 +1,21 @@
 <?php
 
-$db = new PDO('sqlite:../var/db.sqlite');
+require_once '../src/models.php';
+require_once '../src/controllers.php';
 
-$statement = $db->query('SELECT * FROM post');
-$results = $statement->fetchAll(PDO::FETCH_ASSOC);
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Посты</title>
-</head>
-<body>
-<?php
-foreach ($results as $row) {
-    ?>
-    <h2><a href="/show.php?id=<?= $row['id'] ?>"><?= $row['title'] ?></a></h2>
-    <div><?= $row['author'] ?></div>
-    <article><?= $row['body'] ?></article>
-    <?php
+if ('/index.php' === $uri || '/' === $uri) {
+    list_post_action();
 }
-?>
-</body>
-</html>
+
+if ('/show/' === $uri && isset($_GET['id'])) {
+    show_post_action($_GET['id']);
+}
+
+if('/create/' === $uri) {
+    create_post_action();
+}
+
+header('HTTP/1.1 404 Not Found');
+echo '<html><body><h1>Page Not Found</h1></body></html>';
