@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Form\CommentType;
 use App\Form\PostType;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +22,7 @@ class PostController extends AbstractController
     public function index(PostRepository $postRepository): Response
     {
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => $postRepository->findPaginateWithOwner(),
         ]);
     }
 
@@ -49,15 +52,38 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'post_show', methods: ['GET'])]
-    public function show(Post $post): Response
+    #[Route('/{id}/', name: 'post_show', methods: ['GET', 'POST'])]
+    public function show(Request $request, Post $post, CommentRepository $commentRepository): Response
     {
-        return $this->render('post/show.html.twig', [
+        /** @var User $user */
+        if (!$user = $this->getUser()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $comment = new Comment();
+        $comment->setOwner($user);
+        $comment->setPost($post);
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('post_show', ['id' => $post->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('post/show.html.twig', [
             'post' => $post,
+            'comments' => $commentRepository->findBy(['post' => $post]),
+            'form' => $form,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'post_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit/', name: 'post_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Post $post): Response
     {
         $form = $this->createForm(PostType::class, $post);
@@ -75,7 +101,7 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'post_delete', methods: ['POST'])]
+    #[Route('/{id}/remove', name: 'post_delete', methods: ['POST'])]
     public function delete(Request $request, Post $post): Response
     {
         if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->request->get('_token'))) {

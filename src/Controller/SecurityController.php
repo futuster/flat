@@ -13,7 +13,7 @@ class SecurityController extends AbstractController
     #[Route("/", name: "app_index")]
     public function appIndex(PostRepository $postRepository): Response
     {
-        $posts = $postRepository->findBy(['deletedAt' => null], ['id' => 'DESC'], 2, 0);
+        $posts = $postRepository->findBy(['deletedAt' => null], ['id' => 'DESC'], 20, 0);
         return $this->render('index.html.twig', ['posts' => $posts]);
     }
 
