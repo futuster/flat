@@ -18,24 +18,26 @@ class UserType extends AbstractType
             ->add('email')
 
             ->add(
-                'newPassword',
+                'password',
                 PasswordType::class,
-                [
-                    'help' => 'Оставьте пустым, чтобы не изменять пароль',
-                    'constraints' => [
-                        new Length(
-                            [
-                                'min' => 5,
-                                'max' => 128,
-                            ]
-                        ),
-                    ],
-                    'mapped' => false,
-                    'label' => 'Новый пароль',
-                    'required' => false,
-                    'attr' => ['autocomplete' => 'new-password']
-                ]
+//                [
+//                    'help' => 'Оставьте пустым, чтобы не изменять пароль',
+//                    'constraints' => [
+//                        new Length(
+//                            [
+//                                'min' => 5,
+//                                'max' => 128,
+//                            ]
+//                        ),
+//                    ],
+//                    'mapped' => false,
+//                    'label' => 'Новый пароль',
+//                    'required' => false,
+//                    'attr' => ['autocomplete' => 'password'],
+//                    'empty_data' => 'JohnDoe',
+//                ]
             )
+
             ->add(
                 'roles',
                 ChoiceType::class,

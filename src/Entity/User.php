@@ -22,6 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         self::ROLE_USER,
         self::ROLE_ADMIN,
     ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -53,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Pure] public function __construct()
     {
-        $this->password = '';
+//        $this->password = '';
         $this->posts = new ArrayCollection();
     }
 
@@ -126,7 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = md5($password);
 
         return $this;
     }

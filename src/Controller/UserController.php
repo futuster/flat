@@ -24,12 +24,12 @@ class UserController extends AbstractController
     #[Route('/new', name: 'user_new', methods: ['GET','POST'])]
     public function new(Request $request): Response
     {
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
