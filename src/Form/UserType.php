@@ -20,22 +20,22 @@ class UserType extends AbstractType
             ->add(
                 'password',
                 PasswordType::class,
-//                [
-//                    'help' => 'Оставьте пустым, чтобы не изменять пароль',
-//                    'constraints' => [
-//                        new Length(
-//                            [
-//                                'min' => 5,
-//                                'max' => 128,
-//                            ]
-//                        ),
-//                    ],
+                [
+                    'help' => 'Оставьте пустым, чтобы не изменять пароль',
+                    'constraints' => [
+                        new Length(
+                            [
+                                'min' => 5,
+                                'max' => 128,
+                            ]
+                        ),
+                    ],
+                    'label' => 'Новый пароль',
+                    'attr' => ['autocomplete' => 'password'],
 //                    'mapped' => false,
-//                    'label' => 'Новый пароль',
-//                    'required' => false,
-//                    'attr' => ['autocomplete' => 'password'],
-//                    'empty_data' => 'JohnDoe',
-//                ]
+                    'required' => false,
+                    'empty_data' => '',
+                ]
             )
 
             ->add(

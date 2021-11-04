@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/user')]
@@ -22,7 +23,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'user_new', methods: ['GET','POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
 
         $user = new User();
@@ -30,6 +31,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($passwordHasher->hashPassword(
+                $user,
+                $user->getPassword()
+            ));
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
