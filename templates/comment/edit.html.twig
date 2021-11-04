@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block body %}
+    <a href="{{ path('post_index') }}">Обратно к постам</a>
+
+    <h1 class="fw-light">Редактирование Комментария</h1>
+    
+    {{ include('comment/_form.html.twig', {'button_label': 'Обновить'}) }}
+
+    {{ include('comment/_delete_form.html.twig') }}
+{% endblock %}
