@@ -21,6 +21,11 @@ class PostController extends AbstractController
     #[Route('/', name: 'post_index', methods: ['GET'])]
     public function index(PostRepository $postRepository): Response
     {
+        /** @var User $user */
+        if (!$user = $this->getUser()) {
+            throw new AccessDeniedHttpException();
+        }
+
         return $this->render('post/index.html.twig', [
             'posts' => $postRepository->findPaginateWithOwner(),
         ]);

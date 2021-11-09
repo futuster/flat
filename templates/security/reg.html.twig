@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+    <h1>Registration new User</h1>
+
+    {{ include('user/_form.html.twig') }}
+
+    <a href="{{ path('app_index') }}">back to homepage</a>
+{% endblock %}
