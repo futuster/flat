@@ -21,6 +21,11 @@ class PostController extends AbstractController
     #[Route('/', name: 'post_index', methods: ['GET'])]
     public function index(PostRepository $postRepository): Response
     {
+        /** @var User $user */
+        if (!$user = $this->getUser()) {
+            throw new AccessDeniedHttpException();
+        }
+
         return $this->render('post/index.html.twig', [
             'posts' => $postRepository->findPaginateWithOwner(),
         ]);
@@ -29,10 +34,7 @@ class PostController extends AbstractController
     #[Route('/new', name: 'post_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
-        /** @var User $user */
-        if (!$user = $this->getUser()) {
-            throw new AccessDeniedHttpException();
-        }
+        $user = $this->getUser();
         $post = new Post();
         $post->setOwner($user);
         $form = $this->createForm(PostType::class, $post);

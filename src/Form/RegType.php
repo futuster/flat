@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 
-class UserType extends AbstractType
+class RegType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -18,10 +18,9 @@ class UserType extends AbstractType
             ->add('email')
 
             ->add(
-                'newPassword',
+                'password',
                 PasswordType::class,
                 [
-                    'help' => 'Оставьте пустым, чтобы не изменять пароль',
                     'constraints' => [
                         new Length(
                             [
@@ -30,21 +29,11 @@ class UserType extends AbstractType
                             ]
                         ),
                     ],
-                    'label' => 'Новый пароль',
+                    'label' => 'Придумайте пароль',
                     'attr' => ['autocomplete' => 'password'],
-                    'mapped' => false,
+//                    'mapped' => false,
                     'required' => false,
                     'empty_data' => '',
-                ]
-            )
-
-            ->add(
-                'roles',
-                ChoiceType::class,
-                [
-                    'choices' => array_combine(User::AVAILABLE_ROLES,User::AVAILABLE_ROLES),
-                    'expanded' => true,
-                    'multiple' => true,
                 ]
             );
     }
