@@ -18,7 +18,7 @@ class UserType extends AbstractType
             ->add('email')
 
             ->add(
-                'password',
+                'newPassword',
                 PasswordType::class,
                 [
                     'help' => 'Оставьте пустым, чтобы не изменять пароль',
@@ -32,7 +32,7 @@ class UserType extends AbstractType
                     ],
                     'label' => 'Новый пароль',
                     'attr' => ['autocomplete' => 'password'],
-//                    'mapped' => false,
+                    'mapped' => false,
                     'required' => false,
                     'empty_data' => '',
                 ]

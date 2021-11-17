@@ -34,10 +34,7 @@ class PostController extends AbstractController
     #[Route('/new', name: 'post_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
-        /** @var User $user */
-        if (!$user = $this->getUser()) {
-            throw new AccessDeniedHttpException();
-        }
+        $user = $this->getUser();
         $post = new Post();
         $post->setOwner($user);
         $form = $this->createForm(PostType::class, $post);
