@@ -16,7 +16,6 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-
             ->add(
                 'newPassword',
                 PasswordType::class,
@@ -37,12 +36,11 @@ class UserType extends AbstractType
                     'empty_data' => '',
                 ]
             )
-
             ->add(
                 'roles',
                 ChoiceType::class,
                 [
-                    'choices' => array_combine(User::AVAILABLE_ROLES,User::AVAILABLE_ROLES),
+                    'choices' => array_combine(User::AVAILABLE_ROLES, User::AVAILABLE_ROLES),
                     'expanded' => true,
                     'multiple' => true,
                 ]
