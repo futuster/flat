@@ -31,6 +31,10 @@
             <th>DeletedAt</th>
             <td>{{ post.deletedAt ? post.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
         </tr>
+        <tr>
+            <th>Индекс уникальности</th>
+            <td>{{ post.uniqueIndex }}</td>
+        </tr>
         </tbody>
     </table>
 

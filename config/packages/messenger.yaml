@@ -1,0 +1,8 @@
+framework:
+    messenger:
+
+        transports:
+            sync: 'sync://'
+
+        routing:
+            App\Message\SendPlagiat: sync

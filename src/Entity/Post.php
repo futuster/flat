@@ -49,6 +49,11 @@ class Post
      */
     private User $owner;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $uniqueIndex;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable('now');
@@ -127,6 +132,18 @@ class Post
     public function setOwner(User $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getUniqueIndex(): ?int
+    {
+        return $this->uniqueIndex;
+    }
+
+    public function setUniqueIndex(?int $uniqueIndex): self
+    {
+        $this->uniqueIndex = $uniqueIndex;
 
         return $this;
     }

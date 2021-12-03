@@ -7,12 +7,14 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
+use App\Message\SendPlagiat;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/post')]
@@ -32,7 +34,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/new', name: 'post_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, MessageBusInterface $bus): Response
     {
         $user = $this->getUser();
         $post = new Post();
@@ -44,6 +46,8 @@ class PostController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
+
+            $bus->dispatch(new SendPlagiat($post->getId()));
 
             return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -86,13 +90,15 @@ class PostController extends AbstractController
     }
 
     #[Route('/{id}/edit/', name: 'post_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Post $post): Response
+    public function edit(Request $request, Post $post, MessageBusInterface $bus): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $bus->dispatch(new SendPlagiat($post->getId()));
 
             return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
         }
