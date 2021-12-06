@@ -10,6 +10,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class SendPlagiatHandler implements MessageHandlerInterface
 {
+    const ACTION_CHECK_TEXT = 'CHECK_TEXT';
     public function __construct(
         private HttpClientInterface $client,
         private PostRepository $postRepository,
@@ -27,10 +28,10 @@ final class SendPlagiatHandler implements MessageHandlerInterface
 
         $response = $this->client->request('POST', 'https://content-watch.ru/public/api/', [
             'body' => [
-                'action' => 'CHECK_TEXT',
+                'action' => self::ACTION_CHECK_TEXT,
                 'key' => $key,
                 'text' => $post->getBody(),
-                'test' => 0
+                'test' => $_ENV['APP_DEBUG'] ?? 0,
             ],
         ]);
 
